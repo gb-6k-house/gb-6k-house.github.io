@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="RPC,NodesJs," />
+  <meta name="keywords" content="linux,centos," />
 
 
 
@@ -87,18 +87,18 @@
 
 
 
-<meta name="description" content="快速入门">
-<meta name="keywords" content="RPC,NodesJs">
+<meta name="description" content="查看是否创建分区1free -h 或 swapon -s 添加Swap 分区使用dd命令创建名为swapfile 的swap交换文件（文件名和目录任意）:123dd  if=/dev/zero  of=/var/swapfile  bs=1024  count=2097152 或dd  if=/dev/zero  of=/var/swapfile  bs=1024  count=2048k 科普">
+<meta name="keywords" content="linux,centos">
 <meta property="og:type" content="article">
-<meta property="og:title" content="gRPC在Nodejs中的使用">
-<meta property="og:url" content="http://yoursite.com/2018/06/12/gRPC-node/index.html">
+<meta property="og:title" content="linux创建swap内存分区">
+<meta property="og:url" content="http://yoursite.com/2018/12/22/linux创建内存分区/index.html">
 <meta property="og:site_name" content="疯狂的码头’s Notes">
-<meta property="og:description" content="快速入门">
+<meta property="og:description" content="查看是否创建分区1free -h 或 swapon -s 添加Swap 分区使用dd命令创建名为swapfile 的swap交换文件（文件名和目录任意）:123dd  if=/dev/zero  of=/var/swapfile  bs=1024  count=2097152 或dd  if=/dev/zero  of=/var/swapfile  bs=1024  count=2048k 科普">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-31T00:18:45.295Z">
+<meta property="og:updated_time" content="2018-12-22T11:41:19.781Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="gRPC在Nodejs中的使用">
-<meta name="twitter:description" content="快速入门">
+<meta name="twitter:title" content="linux创建swap内存分区">
+<meta name="twitter:description" content="查看是否创建分区1free -h 或 swapon -s 添加Swap 分区使用dd命令创建名为swapfile 的swap交换文件（文件名和目录任意）:123dd  if=/dev/zero  of=/var/swapfile  bs=1024  count=2097152 或dd  if=/dev/zero  of=/var/swapfile  bs=1024  count=2048k 科普">
 
 
 
@@ -126,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/06/12/gRPC-node/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/12/22/linux创建内存分区/"/>
 
 
 
 
 
-  <title> gRPC在Nodejs中的使用 | 疯狂的码头’s Notes </title>
+  <title> linux创建swap内存分区 | 疯狂的码头’s Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -285,7 +285,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/12/gRPC-node/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/22/linux创建内存分区/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="疯狂的码头">
@@ -306,7 +306,7 @@
             
             
               
-                gRPC在Nodejs中的使用
+                linux创建swap内存分区
               
             
           </h2>
@@ -321,8 +321,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-12T18:27:02+08:00">
-                2018-06-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-22T19:26:05+08:00">
+                2018-12-22
               </time>
             
 
@@ -337,8 +337,8 @@
               
                 <span class="post-meta-item-text">更新于</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2018-07-31T08:18:45+08:00">
-                2018-07-31
+              <time title="更新于" itemprop="dateModified" datetime="2018-12-22T19:41:19+08:00">
+                2018-12-22
               </time>
             
           </span>
@@ -351,7 +351,7 @@
 
           
           
-             <span id="/2018/06/12/gRPC-node/" class="leancloud_visitors" data-flag-title="gRPC在Nodejs中的使用">
+             <span id="/2018/12/22/linux创建内存分区/" class="leancloud_visitors" data-flag-title="linux创建swap内存分区">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -380,7 +380,22 @@
       
 
       
-        <h3 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h3>
+        <h3 id="查看是否创建分区"><a href="#查看是否创建分区" class="headerlink" title="查看是否创建分区"></a>查看是否创建分区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">free -h 或 swapon -s</span><br></pre></td></tr></table></figure>
+<h3 id="添加Swap-分区"><a href="#添加Swap-分区" class="headerlink" title="添加Swap 分区"></a>添加Swap 分区</h3><p>使用dd命令创建名为swapfile 的swap交换文件（文件名和目录任意）:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dd  if=/dev/zero  of=/var/swapfile  bs=1024  count=2097152</span><br><span class="line"> 或</span><br><span class="line">dd  if=/dev/zero  of=/var/swapfile  bs=1024  count=2048k</span><br></pre></td></tr></table></figure></p>
+<pre><code>科普：if(即输入文件,input file)，of(即输出文件,output file)。dev/zero是Linux的一种特殊字符设备(输入设备)，可以用来创建一个指定长度用于初始化的空文件，如临时交换文件，该设备无穷尽地提供0，可以提供任何你需要的数目。 bs=1024  ：单位数据块（block）同时读入/输出的块字节大小为1024  个字节即1KB，bs(即block size)。count=2048000  ：数据块（block）数量为2048000 ，即2048000个1KB。可以计算swap分区的容量为：1KB *2097152=1KB *1024(k)*1024*2=2097152=2G。（dd命令里的单位M表示1024*1024,k表示1024）。
+回车后，会执行2g的读写操作，系统会卡一段时间，耐心等待执行结果。
+</code></pre><p>执行完毕，对交换文件格式化并转换为swap分区：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkswap  /var/swapfile</span><br></pre></td></tr></table></figure></p>
+<p>挂载并激活分区：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swapon   /var/swapfile</span><br></pre></td></tr></table></figure></p>
+<p>执行以上命令可能会出现：“不安全的权限 0644，建议使用 0600”类似提示，不要紧张，实际上已经激活了，可以忽略提示，也可以听从系统的建议修改下权限：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod -R 0600 /var/swapfile</span><br></pre></td></tr></table></figure></p>
+<p>这时候可以用 free -h 或 swapon -s命令查看新swap分区是否正常添加并激活使用。</p>
+<p>修改 fstab 配置，设置开机自动挂载该分区：<br> vim    /etc/fstab<br>在fstab文件末尾追加如下内容后:wq!保存即可：<br>/var/swapfile   swap  swap  defaults  0  0<br>或直接对fstab进行echo追加:<br>echo  “/var/swapfile   swap  swap  defaults  0  0” &gt;&gt;  /etc/fstab</p>
+<h3 id="更改Swap配置（进阶级）"><a href="#更改Swap配置（进阶级）" class="headerlink" title="更改Swap配置（进阶级）"></a>更改Swap配置（进阶级）</h3><p> swappiness值（0-100），系统对swap分区的依赖程度，越高则越倾向于使用swap分区。<br>        当然，高度依赖swap会造成物理内存远未使用完，就使用swap分区，我们知道swap分区性能远不如物理内存，这反而降低了系统性能，违背了我们创建swap分区的初衷。<br>         我们希望在物理内存即将满荷时再使用swap，这就决定了swappiness值一般为10-60为宜，固态硬盘可以偏高些。<br>查看当前的swappiness数值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat   /proc/sys/vm/swappiness</span><br></pre></td></tr></table></figure></p>
+<p>修改swappiness值，这里以50为例。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl vm.swappiness=50</span><br></pre></td></tr></table></figure></p>
+<p>若希望vm.swappiness=50永久生效，则需要修改sysctl配置文件，直接echo追加配置内容，重启系统后即可生效：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;vm.swappiness = 50&quot;  &gt;&gt;  /etc/sysctl.conf</span><br></pre></td></tr></table></figure></p>
+<h3 id="删除swap-分区"><a href="#删除swap-分区" class="headerlink" title="删除swap 分区"></a>删除swap 分区</h3><p>先停止正在使用swap分区：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swapoff  /var/swapfile</span><br></pre></td></tr></table></figure></p>
+<p>删除swap分区文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf   /var/swapfile</span><br></pre></td></tr></table></figure></p>
+<p>删除或注释掉我们之前在fstab文件里追加的开机自动挂载配置内容：<br>/var/swapfile   swap  swap  defaults  0  0</p>
+
       
     </div>
 
@@ -409,9 +424,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/RPC/" rel="tag"># RPC</a>
+            <a href="/tags/linux/" rel="tag"># linux</a>
           
-            <a href="/tags/NodesJs/" rel="tag"># NodesJs</a>
+            <a href="/tags/centos/" rel="tag"># centos</a>
           
         </div>
       
@@ -424,8 +439,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/08/vsc-elint/" rel="next" title="VSCode中根据ESlint自动格式化代码">
-                <i class="fa fa-chevron-left"></i> VSCode中根据ESlint自动格式化代码
+              <a href="/2018/12/13/gitlab2/" rel="next" title="Git 在团队中的最佳实践–如何正确使用Git Flow">
+                <i class="fa fa-chevron-left"></i> Git 在团队中的最佳实践–如何正确使用Git Flow
               </a>
             
           </div>
@@ -433,10 +448,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/06/14/typescript-node/" rel="prev" title="快速搭建Typesctipt开发环境">
-                快速搭建Typesctipt开发环境 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -558,7 +569,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#快速入门"><span class="nav-number">1.</span> <span class="nav-text">快速入门</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#查看是否创建分区"><span class="nav-number">1.</span> <span class="nav-text">查看是否创建分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加Swap-分区"><span class="nav-number">2.</span> <span class="nav-text">添加Swap 分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更改Swap配置（进阶级）"><span class="nav-number">3.</span> <span class="nav-text">更改Swap配置（进阶级）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除swap-分区"><span class="nav-number">4.</span> <span class="nav-text">删除swap 分区</span></a></li></ol></div>
             
 
           </div>

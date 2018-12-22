@@ -285,6 +285,164 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/22/linux创建内存分区/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="疯狂的码头">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="疯狂的码头’s Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/12/22/linux创建内存分区/" itemprop="url">
+                  linux创建swap内存分区
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-22T19:26:05+08:00">
+                2018-12-22
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-12-22T19:41:19+08:00">
+                2018-12-22
+              </time>
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/12/22/linux创建内存分区/" class="leancloud_visitors" data-flag-title="linux创建swap内存分区">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="查看是否创建分区"><a href="#查看是否创建分区" class="headerlink" title="查看是否创建分区"></a>查看是否创建分区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">free -h 或 swapon -s</span><br></pre></td></tr></table></figure>
+<h3 id="添加Swap-分区"><a href="#添加Swap-分区" class="headerlink" title="添加Swap 分区"></a>添加Swap 分区</h3><p>使用dd命令创建名为swapfile 的swap交换文件（文件名和目录任意）:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dd  if=/dev/zero  of=/var/swapfile  bs=1024  count=2097152</span><br><span class="line"> 或</span><br><span class="line">dd  if=/dev/zero  of=/var/swapfile  bs=1024  count=2048k</span><br></pre></td></tr></table></figure></p>
+<pre><code>科普：if(即输入文件,input file)，of(即输出文件,output file)。dev/zero是Linux的一种特殊字符设备(输入设备)，可以用来创建一个指定长度用于初始化的空文件，如临时交换文件，该设备无穷尽地提供0，可以提供任何你需要的数目。 bs=1024  ：单位数据块（block）同时读入/输出的块字节大小为1024  个字节即1KB，bs(即block size)。count=2048000  ：数据块（block）数量为2048000 ，即2048000个1KB。可以计算swap分区的容量为：1KB *2097152=1KB *1024(k)*1024*2=2097152=2G。（dd命令里的单位M表示1024*1024,k表示1024）。
+回车后，会执行2g的读写操作，系统会卡一段时间，耐心等待执行结果。
+</code></pre><p>执行完毕，对交换文件格式化并转换为swap分区：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkswap  /var/swapfile</span><br></pre></td></tr></table></figure></p>
+<p>挂载并激活分区：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swapon   /var/swapfile</span><br></pre></td></tr></table></figure></p>
+<p>执行以上命令可能会出现：“不安全的权限 0644，建议使用 0600”类似提示，不要紧张，实际上已经激活了，可以忽略提示，也可以听从系统的建议修改下权限：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod -R 0600 /var/swapfile</span><br></pre></td></tr></table></figure></p>
+<p>这时候可以用 free -h 或 swapon -s命令查看新swap分区是否正常添加并激活使用。</p>
+<p>修改 fstab 配置，设置开机自动挂载该分区：<br> vim    /etc/fstab<br>在fstab文件末尾追加如下内容后:wq!保存即可：<br>/var/swapfile   swap  swap  defaults  0  0<br>或直接对fstab进行echo追加:<br>echo  “/var/swapfile   swap  swap  defaults  0  0” &gt;&gt;  /etc/fstab</p>
+<h3 id="更改Swap配置（进阶级）"><a href="#更改Swap配置（进阶级）" class="headerlink" title="更改Swap配置（进阶级）"></a>更改Swap配置（进阶级）</h3><p> swappiness值（0-100），系统对swap分区的依赖程度，越高则越倾向于使用swap分区。<br>        当然，高度依赖swap会造成物理内存远未使用完，就使用swap分区，我们知道swap分区性能远不如物理内存，这反而降低了系统性能，违背了我们创建swap分区的初衷。<br>         我们希望在物理内存即将满荷时再使用swap，这就决定了swappiness值一般为10-60为宜，固态硬盘可以偏高些。<br>查看当前的swappiness数值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat   /proc/sys/vm/swappiness</span><br></pre></td></tr></table></figure></p>
+<p>修改swappiness值，这里以50为例。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl vm.swappiness=50</span><br></pre></td></tr></table></figure></p>
+<p>若希望vm.swappiness=50永久生效，则需要修改sysctl配置文件，直接echo追加配置内容，重启系统后即可生效：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;vm.swappiness = 50&quot;  &gt;&gt;  /etc/sysctl.conf</span><br></pre></td></tr></table></figure></p>
+<h3 id="删除swap-分区"><a href="#删除swap-分区" class="headerlink" title="删除swap 分区"></a>删除swap 分区</h3><p>先停止正在使用swap分区：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swapoff  /var/swapfile</span><br></pre></td></tr></table></figure></p>
+<p>删除swap分区文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf   /var/swapfile</span><br></pre></td></tr></table></figure></p>
+<p>删除或注释掉我们之前在fstab文件里追加的开机自动挂载配置内容：<br>/var/swapfile   swap  swap  defaults  0  0</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/13/gitlab2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -340,8 +498,8 @@
               
                 <span class="post-meta-item-text">更新于</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2018-12-13T23:10:55+08:00">
-                2018-12-13
+              <time title="更新于" itemprop="dateModified" datetime="2018-12-22T19:24:06+08:00">
+                2018-12-22
               </time>
             
           </span>
@@ -402,7 +560,7 @@
 <p>大部分开发人员现在使用Git就只是用三个甚至两个分支，一个是Master, 一个是Develop, 还有一个是基于Develop打得各种分支。这个在小项目规模的时候还勉强可以支撑，因为很多人做项目就只有一个Release, 但是人员一多，而且项目周期一长就会出现各种问题。</p>
 <h2 id="Git-Flow"><a href="#Git-Flow" class="headerlink" title="Git Flow"></a>Git Flow</h2><p>就像代码需要代码规范一样，代码管理同样需要一个清晰的流程和规范</p>
 <p>Vincent Driessen 同学为了解决这个问题提出了 <a href="https://nvie.com/posts/a-successful-git-branching-model/" target="_blank" rel="noopener">A Successful Git Branching Model</a></p>
-<p>下面是Git Flow的流程图<br><img src="../uploads/o_git-flow-nvie.png" alt=""></p>
+<p>下面是Git Flow的流程图<br><img src="/uploads/o_git-flow-nvie.png" alt=""></p>
 <h3 id="Git-Flow常用的分支"><a href="#Git-Flow常用的分支" class="headerlink" title="Git Flow常用的分支"></a>Git Flow常用的分支</h3><ul>
 <li>Production 分支<blockquote>
 <p>也就是我们经常使用的Master分支，这个分支最近发布到生产环境的代码，最近发布的Release， 这个分支只能从其他分支合并，不能在这个分支直接修改</p>
@@ -427,17 +585,17 @@
 </blockquote>
 </li>
 </ul>
-<h3 id="Git-Flow如何工作"><a href="#Git-Flow如何工作" class="headerlink" title="Git Flow如何工作"></a>Git Flow如何工作</h3><p>所有在Master分支上的Commit应该Tag<br><img src="../uploads/o_git-workflow-release-cycle-1historical.png" alt=""></p>
+<h3 id="Git-Flow如何工作"><a href="#Git-Flow如何工作" class="headerlink" title="Git Flow如何工作"></a>Git Flow如何工作</h3><p>所有在Master分支上的Commit应该Tag<br><img src="/uploads/o_git-workflow-release-cycle-1historical.png" alt=""></p>
 <p>Feature 分支</p>
 <p>分支名 feature/*   </p>
-<p>Feature分支做完后，必须合并回Develop分支, 合并完分支后一般会删点这个Feature分支，但是我们也可以保留<br><img src="../uploads/o_git-workflow-release-cycle-2feature.png" alt=""></p>
+<p>Feature分支做完后，必须合并回Develop分支, 合并完分支后一般会删点这个Feature分支，但是我们也可以保留<br><img src="/uploads/o_git-workflow-release-cycle-2feature.png" alt=""></p>
 <p>Release分支</p>
 <p>分支名 release/*</p>
 <p>Release分支基于Develop分支创建，打完Release分之后，我们可以在这个Release分支上测试，修改Bug等。同时，其它开发人员可以基于开发新的Feature (记住：一旦打了Release分支之后不要从Develop分支上合并新的改动到Release分支)</p>
-<p>发布Release分支时，合并Release到Master和Develop， 同时在Master分支上打个Tag记住Release版本号，然后可以删除Release分支了。<br><img src="../uploads/o_git-workflow-release-cycle-3release.png" alt=""></p>
+<p>发布Release分支时，合并Release到Master和Develop， 同时在Master分支上打个Tag记住Release版本号，然后可以删除Release分支了。<br><img src="/uploads/o_git-workflow-release-cycle-3release.png" alt=""></p>
 <p>维护分支 Hotfix</p>
 <p>分支名 hotfix/*</p>
-<p>hotfix分支基于Master分支创建，开发完后需要合并回Master和Develop分支，同时在Master上打一个tag<br><img src="../uploads/o_git-workflow-release-cycle-4maintenance.png" alt=""></p>
+<p>hotfix分支基于Master分支创建，开发完后需要合并回Master和Develop分支，同时在Master上打一个tag<br><img src="/uploads/o_git-workflow-release-cycle-4maintenance.png" alt=""></p>
 <h3 id="Git-Flow代码示例"><a href="#Git-Flow代码示例" class="headerlink" title="Git Flow代码示例"></a>Git Flow代码示例</h3><p>a. 创建develop分支<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git branch develop</span><br><span class="line">git push -u origin develop</span><br></pre></td></tr></table></figure></p>
 <p>b. 开始新Feature开发<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b some-feature develop</span><br><span class="line"># Optionally, push branch to origin:</span><br><span class="line">git push -u origin some-feature    </span><br><span class="line"># 做一些改动    </span><br><span class="line">git status</span><br><span class="line">git add some-file</span><br><span class="line">git commit</span><br></pre></td></tr></table></figure></p>
 <p>c. 完成Feature<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">git pull origin develop</span><br><span class="line">git checkout develop</span><br><span class="line">git merge --no-ff some-feature</span><br><span class="line">git push origin develop</span><br><span class="line"></span><br><span class="line">git branch -d some-feature</span><br><span class="line"></span><br><span class="line"># If you pushed branch to origin:</span><br><span class="line">git push origin --delete some-feature</span><br></pre></td></tr></table></figure></p>
@@ -1719,155 +1877,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/05/WePy入坑过程/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="疯狂的码头">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="疯狂的码头’s Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/06/05/WePy入坑过程/" itemprop="url">
-                  WePy入坑过程
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-05T11:00:05+08:00">
-                2018-06-05
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2018-07-31T08:18:45+08:00">
-                2018-07-31
-              </time>
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/06/05/WePy入坑过程/" class="leancloud_visitors" data-flag-title="WePy入坑过程">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="坑1"><a href="#坑1" class="headerlink" title="坑1"></a>坑1</h3><p>按教程新建<a href="https://tencent.github.io/wepy/" target="_blank" rel="noopener">WePy</a>工程时，在微信开发中工具中编译会报如下错误<br><img src="/uploads/WePy1.png" alt=""><br>此时点项目详情，按如下设置项目<br><img src="/uploads/WePy2.png" alt=""><br>WePy项目编译通过</p>
-<h3 id="Unexpected-token-u-in-JSON-at-position-0"><a href="#Unexpected-token-u-in-JSON-at-position-0" class="headerlink" title="Unexpected token u in JSON at position 0"></a>Unexpected token u in JSON at position 0</h3><p>这个坑不知道真的是害死人， 本部会找不到问题所在在app.wpy文件中定义页面索引时，pages中的页面不能以‘/’开头，例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pages: [</span><br><span class="line">      &apos;/pages/index&apos;</span><br><span class="line">    ]</span><br></pre></td></tr></table></figure></p>
-<p>这样定义编译可以通过，但是在微信开发这工具中运行会报错<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/pages/index.json 文件解析错误  <span class="built_in">SyntaxError</span>: Unexpected token u <span class="keyword">in</span> <span class="built_in">JSON</span> at position <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
-<p>正确应该这样设置页面路径<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pages: [</span><br><span class="line">      &apos;pages/index&apos;</span><br><span class="line">    ]</span><br></pre></td></tr></table></figure></p>
-<h3 id="关于使用-redirect或-navigate等-在页面之间转递数据问题"><a href="#关于使用-redirect或-navigate等-在页面之间转递数据问题" class="headerlink" title="关于使用$redirect或$navigate等,在页面之间转递数据问题"></a>关于使用$redirect或$navigate等,在页面之间转递数据问题</h3><p>1、直接将数据做个$navigate等的参数进行转递，无法转递Object。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// page1.js</span><br><span class="line">  this.$navigate(&apos;./page2&apos;,&#123;param1:&#123;&#125;&#125;);</span><br><span class="line"></span><br><span class="line">  // page2.js</span><br><span class="line">  onLoad (params, data) &#123;</span><br><span class="line">     //这里param1传递过来之后变成了字符串&quot;[object Object]&quot;, 实际上应该是一个Object 这是底层框架的BUG</span><br><span class="line">      console.log(data.params.param1); //&quot;[object Object]&quot;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-<p>2、通过$preload传递Object<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// page1.js</span><br><span class="line">this.$preload(&apos;param1&apos;, &#123;&#125;);</span><br><span class="line">this.$redirect(&apos;./page2&apos;);</span><br><span class="line"></span><br><span class="line">// page2.js</span><br><span class="line">onLoad (params, data) &#123;</span><br><span class="line">    console.log(data.preload.param1); // 可以正确拿到对象</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1917,7 +1926,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1930,7 +1939,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
