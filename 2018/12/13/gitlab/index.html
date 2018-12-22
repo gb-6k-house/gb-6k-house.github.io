@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="gitlab," />
 
 
 
@@ -88,6 +88,7 @@
 
 
 <meta name="description" content="1、 新建GitLab安装目录1mkdir /usr/local/gitlab &amp;amp;&amp;amp; cd $_ 2、下载gitlab安装镜像 (注意版本信息)1wget  https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7/gitlab-ce-11.0.6-ce.0.el7.x86_64.rpm 3、安装gitlab1rpm -i git">
+<meta name="keywords" content="gitlab">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Centos 7 安装gitLab">
 <meta property="og:url" content="http://yoursite.com/2018/12/13/gitlab/index.html">
@@ -95,7 +96,7 @@
 <meta property="og:description" content="1、 新建GitLab安装目录1mkdir /usr/local/gitlab &amp;amp;&amp;amp; cd $_ 2、下载gitlab安装镜像 (注意版本信息)1wget  https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7/gitlab-ce-11.0.6-ce.0.el7.x86_64.rpm 3、安装gitlab1rpm -i git">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/uploads/gitlab1.png">
-<meta property="og:updated_time" content="2018-12-13T15:23:08.194Z">
+<meta property="og:updated_time" content="2018-12-22T12:17:22.224Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Centos 7 安装gitLab">
 <meta name="twitter:description" content="1、 新建GitLab安装目录1mkdir /usr/local/gitlab &amp;amp;&amp;amp; cd $_ 2、下载gitlab安装镜像 (注意版本信息)1wget  https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7/gitlab-ce-11.0.6-ce.0.el7.x86_64.rpm 3、安装gitlab1rpm -i git">
@@ -200,6 +201,16 @@
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
           </a>
         </li>
       
@@ -338,12 +349,34 @@
               
                 <span class="post-meta-item-text">更新于</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2018-12-13T23:23:08+08:00">
-                2018-12-13
+              <time title="更新于" itemprop="dateModified" datetime="2018-12-22T20:17:22+08:00">
+                2018-12-22
               </time>
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/gitlab/" itemprop="url" rel="index">
+                    <span itemprop="name">gitlab</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -404,6 +437,7 @@
 </li>
 </ul>
 <p>第二步： 配置nginx<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">upstream  gitlab&#123;</span><br><span class="line">    # 域名对应 gitlab配置中的 external_url</span><br><span class="line">    # 端口对应 gitlab 配置中的 nginx[&apos;listen_port&apos;]</span><br><span class="line">    server  ip:端口;</span><br><span class="line">&#125;</span><br><span class="line">server&#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    # 此域名是提供给最终用户的访问地址</span><br><span class="line">    server_name 域名;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        # 这个大小的设置非常重要，如果 git 版本库里面有大文件，设置的太小，文件push 会失败，根据情况调整</span><br><span class="line">        client_max_body_size 50m;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">        #以下确保 gitlab中项目的 url 是域名而不是 http://git，不可缺少</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        # 反向代理到 gitlab 内置的 nginx</span><br><span class="line">        proxy_pass http://gitlab.com;</span><br><span class="line">        index index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="内存或CPU占用过高"><a href="#内存或CPU占用过高" class="headerlink" title="内存或CPU占用过高"></a>内存或CPU占用过高</h3><p>gitlab会占用比较高的内存和cpu</p>
 
       
     </div>
@@ -430,6 +464,12 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/gitlab/" rel="tag"># gitlab</a>
+          
+        </div>
       
 
       
@@ -501,8 +541,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/avatar.jpeg"
@@ -517,12 +566,21 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
           
 
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
           
 
           
@@ -530,7 +588,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -555,6 +613,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#内存或CPU占用过高"><span class="nav-number">1.</span> <span class="nav-text">内存或CPU占用过高</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
